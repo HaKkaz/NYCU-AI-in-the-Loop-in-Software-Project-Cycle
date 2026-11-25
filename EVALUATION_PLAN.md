@@ -1,5 +1,9 @@
 # Draft Evaluation Plan
 
+## Week 12 Phase 3 update
+
+Because reviewers could not run a prototype from this repository, Phase 3 will begin with a deterministic CLI walking skeleton and a fresh-clone task before comparing dashboard and baseline performance. We will first measure whether a new teammate can run one command and correctly identify one commit event and one decision event, then resume the planned time, accuracy, navigation-effort, and clarification measures after the timeline is runnable.
+
 ## Problem Grounding
 
 ### 1. Who specifically has the collaboration problem?
