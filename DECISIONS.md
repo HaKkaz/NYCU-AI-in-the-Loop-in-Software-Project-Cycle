@@ -18,3 +18,7 @@
 **Alternative rejected:** PostgreSQL, which adds a service to install and operate with no benefit at this data volume.
 **Led by:** 林品安 (HaKkaz)
 **Code steward:** 林品安 (HaKkaz)
+
+## 2026-11-29 — Version the SQLite schema in SQL
+**What:** Keep the table definitions in numbered SQL migrations under `backend/migrations/`. Use Python's standard-library `sqlite3` for database connections and SQLite's `user_version` for the applied version.
+**Why:** The migration service and FastAPI can open the same database using one connection helper. Reviewers can see every schema change in its migration, and a failed migration leaves the prior version available for retry.
