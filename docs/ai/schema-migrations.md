@@ -7,3 +7,11 @@
 - Retained: SQL constraints, the partial unique index for an active decision–PR pair, transactional migration execution, the one-shot Compose service and the tests for F4, F6–F9 and §8.
 - Revised during implementation: Adopted the requested singular table names, four-digit migration filenames and `app/links/` package. Table definitions live in SQL.
 - Collaboration: The teammate requesting these database PRs supplied the specification and layout. Codex prepared the code and ran the local checks. Human review and approval are pending.
+
+## PR 2 · Event history and FastAPI startup
+
+- Tool and model: OpenAI Codex, GPT-6.
+- Request: Add the second SQL migration and a one-shot Compose migration service. Run `migrate()` at FastAPI startup so the schema is ready before accepting requests.
+- Retained: Creation-event uniqueness, a backfill derived from saved creator/time, the status-change timestamp trigger, the shared database mount and FastAPI startup tests.
+- Revised during implementation: Direct FastAPI startup now applies outstanding migrations. A database version newer than the code, or a failing migration, stops startup.
+- Collaboration: The same requester supplied the startup contract. Codex prepared and tested the changes. Human review and approval are pending.

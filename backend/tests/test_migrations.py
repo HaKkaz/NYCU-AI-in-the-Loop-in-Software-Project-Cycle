@@ -126,12 +126,12 @@ class ShippedMigrationsTests(unittest.TestCase):
     def test_empty_database_and_repeat(self):
         with TemporaryDirectory() as directory:
             url = f"sqlite:///{Path(directory) / 'timeline.db'}"
-            self.assertEqual(migrate(url), 1)
+            self.assertEqual(migrate(url), 2)
             with connect(url) as db:
                 tables = {row[0] for row in db.execute("SELECT name FROM sqlite_schema WHERE type = 'table'")}
                 self.assertEqual(tables, {"link", "link_event"})
                 db.execute("INSERT INTO link (decision_id, pr_number, created_by) VALUES (?, ?, ?)", ("sample", 1, "A"))
-            self.assertEqual(migrate(url), 1)
+            self.assertEqual(migrate(url), 2)
             with connect(url, read_only=True) as db:
-                self.assertEqual(db.execute("PRAGMA user_version").fetchone()[0], 1)
+                self.assertEqual(db.execute("PRAGMA user_version").fetchone()[0], 2)
                 self.assertEqual(db.execute("SELECT count(*) FROM link").fetchone()[0], 1)
