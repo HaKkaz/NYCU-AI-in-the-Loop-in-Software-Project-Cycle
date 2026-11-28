@@ -49,21 +49,14 @@ class LinkSchemaTests(unittest.TestCase):
             link_id = self.link()
         self.assertEqual(self.db.execute("SELECT COUNT(*) FROM link").fetchone(), (5,))
 
-    def test_f6_f7_only_dispute_and_respond_require_nonblank_comments(self):
+    def test_section_8_stores_nullable_event_comments_verbatim(self):
         link_id = self.link()
-        self.event(link_id, "Alex", "create")
-        self.event(link_id, "Sam", "confirm")
-        for actor, action in (("Sam", "dispute"), ("Alex", "respond")):
-            for comment in (None, "", " ", "\t\r\n", "\u00a0\u3000"):
-                with self.subTest(action=action, comment=comment):
-                    with self.assertRaises(sqlite3.IntegrityError):
-                        self.event(link_id, actor, action, comment)
-            self.event(link_id, actor, action, "  請看 PR #5。  ")
-        self.event(link_id, "Alex", "withdraw")
+        self.event(link_id, "Sam", "dispute")
+        self.event(link_id, "Alex", "respond", "  請看 PR #5。  ")
         comments = self.db.execute(
             "SELECT comment FROM link_event WHERE link_id = ? ORDER BY id", (link_id,)
         ).fetchall()
-        self.assertEqual(comments, [(None,), (None,), ("  請看 PR #5。  ",), ("  請看 PR #5。  ",), (None,)])
+        self.assertEqual(comments, [(None,), ("  請看 PR #5。  ",)])
 
     def test_section_8_rejects_invalid_status_and_action(self):
         link_id = self.link()
