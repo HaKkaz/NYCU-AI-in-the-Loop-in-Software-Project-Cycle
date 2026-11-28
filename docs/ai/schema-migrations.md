@@ -13,5 +13,5 @@
 - Tool and model: OpenAI Codex, GPT-6.
 - Request: Add the second SQL migration and a one-shot Compose migration service. Run `migrate()` at FastAPI startup so the schema is ready before accepting requests.
 - Retained: Creation-event uniqueness, a backfill derived from saved creator/time, the status-change timestamp trigger, the shared database mount and FastAPI startup tests.
-- Revised during implementation: Direct FastAPI startup now applies outstanding migrations. A database version newer than the code, or a failing migration, stops startup.
-- Collaboration: The same requester supplied the startup contract. Codex prepared and tested the changes. Human review and approval are pending.
+- PR review: The reviewer requested one owner for schema upgrades and an API image whose dependency layer can be reused when source code changes. Compose runs the migration service. FastAPI opens the database read-only and checks the version. The API image installs dependencies from `pyproject.toml` before copying the source.
+- Collaboration: Codex implemented the two review comments on PR #16 and updated the startup tests.

@@ -7,7 +7,7 @@ from app.links.migrate import migrate
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    migrate()
+    migrate(check_only=True)
     yield
 
 
